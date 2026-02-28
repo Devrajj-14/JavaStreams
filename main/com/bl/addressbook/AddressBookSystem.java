@@ -21,8 +21,7 @@ public class AddressBookSystem {
         return new TreeSet<>(books.keySet());
     }
 
-    // ---------------- UC7 (Streams): search across all books ----------------
-
+    // UC7
     public List<Contact> searchAcrossBooksByCity(String city) {
         String cityKey = safeLower(city);
         return books.values().stream()
@@ -37,6 +36,20 @@ public class AddressBookSystem {
                 .flatMap(book -> book.getAllContacts().stream())
                 .filter(c -> safeLower(c.getState()).equals(stateKey))
                 .collect(Collectors.toList());
+    }
+
+    // ---------------- UC8 (Streams + Map): view persons by City/State ----------------
+
+    public Map<String, List<Contact>> cityToPersonsMap() {
+        return books.values().stream()
+                .flatMap(book -> book.getAllContacts().stream())
+                .collect(Collectors.groupingBy(c -> safeLower(c.getCity())));
+    }
+
+    public Map<String, List<Contact>> stateToPersonsMap() {
+        return books.values().stream()
+                .flatMap(book -> book.getAllContacts().stream())
+                .collect(Collectors.groupingBy(c -> safeLower(c.getState())));
     }
 
     private static String safeKey(String s) {

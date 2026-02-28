@@ -1,6 +1,7 @@
 package com.bl.addressbook;
 
 import java.util.List;
+import java.util.Map;
 import java.util.Scanner;
 
 public class AddressBookMain {
@@ -68,6 +69,8 @@ public class AddressBookMain {
             // In System Menu print:
             System.out.println("5) Search Person by City across all AddressBooks (UC7)");
             System.out.println("6) Search Person by State across all AddressBooks (UC7)");
+            System.out.println("7) View Persons by City (UC8)");
+            System.out.println("8) View Persons by State (UC8)");
             System.out.println("0) Back to System Menu");
             System.out.print("Choose: ");
 
@@ -139,6 +142,34 @@ public class AddressBookMain {
 
                     if (result.isEmpty()) System.out.println("No persons found in state: " + state);
                     else result.forEach(System.out::println);
+                    break;
+                }
+                case "7": {
+                    Map<String, List<Contact>> map = system.cityToPersonsMap();
+
+                    if (map.isEmpty()) {
+                        System.out.println("No contacts in system.");
+                        break;
+                    }
+
+                    map.forEach((city, persons) -> {
+                        System.out.println("\nCity: " + city + " (count=" + persons.size() + ")");
+                        persons.forEach(System.out::println);
+                    });
+                    break;
+                }
+                case "8": {
+                    Map<String, List<Contact>> map = system.stateToPersonsMap();
+
+                    if (map.isEmpty()) {
+                        System.out.println("No contacts in system.");
+                        break;
+                    }
+
+                    map.forEach((state, persons) -> {
+                        System.out.println("\nState: " + state + " (count=" + persons.size() + ")");
+                        persons.forEach(System.out::println);
+                    });
                     break;
                 }
                 case "0":
