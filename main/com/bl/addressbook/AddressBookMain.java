@@ -17,6 +17,7 @@ public class AddressBookMain {
                 System.out.println("1) Create Address Book");
                 System.out.println("2) Select Address Book");
                 System.out.println("3) List Address Books");
+                System.out.println("5) Sort Contacts by Name (UC10)");
                 System.out.println("0) Exit");
                 System.out.print("Choose: ");
 
@@ -32,6 +33,7 @@ public class AddressBookMain {
                     case "3":
                         System.out.println("Books: " + system.listAddressBooks());
                         break;
+
                     case "0":
                         System.out.println("Exit.");
                         return;
@@ -73,6 +75,7 @@ public class AddressBookMain {
             System.out.println("8) View Persons by State (UC8)");
             System.out.println("9) Count Contacts by City (UC9)");
             System.out.println("10) Count Contacts by State (UC9)");
+
             System.out.println("0) Back to System Menu");
             System.out.print("Choose: ");
 
@@ -186,6 +189,13 @@ public class AddressBookMain {
                     else System.out.println("State Counts: " + counts);
                     break;
                 }
+                case "11": {
+                    List<Contact> sorted = book.sortedByName();
+                    if (sorted.isEmpty()) System.out.println("No contacts to sort.");
+                    else sorted.forEach(System.out::println);  // prints using toString()
+                    break;
+                }
+
                 case "0":
                     return;
                 default:

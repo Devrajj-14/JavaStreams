@@ -1,7 +1,9 @@
 package com.bl.addressbook;
 
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class AddressBook {
     private final String name;
@@ -15,20 +17,17 @@ public class AddressBook {
 
     public List<Contact> getAllContacts() { return contacts; }
 
-    // UC6: add contact with duplicate prevention using Streams
+    // UC6: duplicate prevention using streams
     public boolean addContact(Contact contact) {
         if (contact == null) return false;
 
-        boolean duplicate = contacts.stream()
-                .anyMatch(existing -> existing.equals(contact)); // uses overridden equals()
-
+        boolean duplicate = contacts.stream().anyMatch(existing -> existing.equals(contact));
         if (duplicate) return false;
 
         contacts.add(contact);
         return true;
     }
 
-    // UC2
     public boolean editContact(String firstName, String lastName,
                                String address, String city, String state,
                                String zip, String phone, String email) {
@@ -44,7 +43,6 @@ public class AddressBook {
         return true;
     }
 
-    // UC3
     public boolean deleteContact(String firstName, String lastName) {
         String key = (firstName + " " + lastName).trim().toLowerCase();
         return contacts.removeIf(c -> c.fullNameKey().equals(key));
@@ -56,5 +54,14 @@ public class AddressBook {
                 .filter(c -> c.fullNameKey().equals(key))
                 .findFirst()
                 .orElse(null);
+    }
+
+    // ---------------- UC10 (Streams): sort alphabetically by person's name ----------------
+    public List<Contact> sortedByName() {
+        return contacts.stream()
+                .sorted(Comparator
+                        .comparing((Contact c) -> c.getFirstName().toLowerCase())
+                        .thenComparing(c -> c.getLastName().toLowerCase()))
+                .collect(Collectors.toList());
     }
 }
