@@ -71,12 +71,12 @@ public class AddressBookMain {
             String choice = sc.nextLine().trim();
 
             switch (choice) {
-                case "1": {
-                    Contact c = readContact(sc);
-                    book.addContact(c);
-                    System.out.println("Added.");
-                    break;
-                }
+                    case "1": {
+                        Contact c = readContact(sc);
+                        boolean added = book.addContact(c);
+                        System.out.println(added ? "Added." : "Duplicate name! Contact not added (UC6).");
+                        break;
+                    }
                 case "2": {
                     System.out.print("Enter First Name to edit: ");
                     String fn = sc.nextLine();

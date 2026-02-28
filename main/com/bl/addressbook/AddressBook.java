@@ -4,24 +4,28 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class AddressBook {
-    private final String name;                 // UC5
-    private final List<Contact> contacts = new ArrayList<>();  // UC4
+    private final String name;
+    private final List<Contact> contacts = new ArrayList<>();
 
     public AddressBook(String name) {
         this.name = name == null ? "" : name.trim();
     }
 
-    public String getName() {
-        return name;
-    }
+    public String getName() { return name; }
 
-    // UC1/UC4
-    public void addContact(Contact contact) {
-        if (contact != null) contacts.add(contact);
-    }
+    public List<Contact> getAllContacts() { return contacts; }
 
-    public List<Contact> getAllContacts() {
-        return contacts;
+    // UC6: add contact with duplicate prevention using Streams
+    public boolean addContact(Contact contact) {
+        if (contact == null) return false;
+
+        boolean duplicate = contacts.stream()
+                .anyMatch(existing -> existing.equals(contact)); // uses overridden equals()
+
+        if (duplicate) return false;
+
+        contacts.add(contact);
+        return true;
     }
 
     // UC2
@@ -46,12 +50,11 @@ public class AddressBook {
         return contacts.removeIf(c -> c.fullNameKey().equals(key));
     }
 
-    // helper
     public Contact findByName(String firstName, String lastName) {
         String key = (firstName + " " + lastName).trim().toLowerCase();
-        for (Contact c : contacts) {
-            if (c.fullNameKey().equals(key)) return c;
-        }
-        return null;
+        return contacts.stream()
+                .filter(c -> c.fullNameKey().equals(key))
+                .findFirst()
+                .orElse(null);
     }
 }

@@ -1,5 +1,7 @@
 package com.bl.addressbook;
 
+import java.util.Objects;
+
 public class Contact {
     private final String firstName;
     private final String lastName;
@@ -57,5 +59,19 @@ public class Contact {
                 ", phone='" + phoneNumber + '\'' +
                 ", email='" + email + '\'' +
                 '}';
+    }
+
+    // UC6: duplicate check by person name
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof Contact)) return false;
+        Contact contact = (Contact) o;
+        return this.fullNameKey().equals(contact.fullNameKey());
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(fullNameKey());
     }
 }
