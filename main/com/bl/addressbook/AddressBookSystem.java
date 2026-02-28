@@ -38,8 +38,7 @@ public class AddressBookSystem {
                 .collect(Collectors.toList());
     }
 
-    // ---------------- UC8 (Streams + Map): view persons by City/State ----------------
-
+    // UC8
     public Map<String, List<Contact>> cityToPersonsMap() {
         return books.values().stream()
                 .flatMap(book -> book.getAllContacts().stream())
@@ -50,6 +49,20 @@ public class AddressBookSystem {
         return books.values().stream()
                 .flatMap(book -> book.getAllContacts().stream())
                 .collect(Collectors.groupingBy(c -> safeLower(c.getState())));
+    }
+
+    // ---------------- UC9 (Streams): count by city/state ----------------
+
+    public Map<String, Long> cityCounts() {
+        return books.values().stream()
+                .flatMap(book -> book.getAllContacts().stream())
+                .collect(Collectors.groupingBy(c -> safeLower(c.getCity()), Collectors.counting()));
+    }
+
+    public Map<String, Long> stateCounts() {
+        return books.values().stream()
+                .flatMap(book -> book.getAllContacts().stream())
+                .collect(Collectors.groupingBy(c -> safeLower(c.getState()), Collectors.counting()));
     }
 
     private static String safeKey(String s) {

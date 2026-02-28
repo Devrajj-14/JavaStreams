@@ -71,6 +71,8 @@ public class AddressBookMain {
             System.out.println("6) Search Person by State across all AddressBooks (UC7)");
             System.out.println("7) View Persons by City (UC8)");
             System.out.println("8) View Persons by State (UC8)");
+            System.out.println("9) Count Contacts by City (UC9)");
+            System.out.println("10) Count Contacts by State (UC9)");
             System.out.println("0) Back to System Menu");
             System.out.print("Choose: ");
 
@@ -170,6 +172,18 @@ public class AddressBookMain {
                         System.out.println("\nState: " + state + " (count=" + persons.size() + ")");
                         persons.forEach(System.out::println);
                     });
+                    break;
+                }
+                case "9": {
+                    Map<String, Long> counts = system.cityCounts();
+                    if (counts.isEmpty()) System.out.println("No contacts in system.");
+                    else System.out.println("City Counts: " + counts);
+                    break;
+                }
+                case "10": {
+                    Map<String, Long> counts = system.stateCounts();
+                    if (counts.isEmpty()) System.out.println("No contacts in system.");
+                    else System.out.println("State Counts: " + counts);
                     break;
                 }
                 case "0":
