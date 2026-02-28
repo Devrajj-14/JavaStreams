@@ -3,12 +3,12 @@ package com.bl.addressbook;
 public class Contact {
     private final String firstName;
     private final String lastName;
-    private final String address;
-    private final String city;
-    private final String state;
-    private final String zip;
-    private final String phoneNumber;
-    private final String email;
+    private String address;
+    private String city;
+    private String state;
+    private String zip;
+    private String phoneNumber;
+    private String email;
 
     public Contact(String firstName, String lastName, String address, String city, String state,
                    String zip, String phoneNumber, String email) {
@@ -34,6 +34,17 @@ public class Contact {
     public String getZip() { return zip; }
     public String getPhoneNumber() { return phoneNumber; }
     public String getEmail() { return email; }
+
+    public void setAddress(String address) { this.address = safe(address); }
+    public void setCity(String city) { this.city = safe(city); }
+    public void setState(String state) { this.state = safe(state); }
+    public void setZip(String zip) { this.zip = safe(zip); }
+    public void setPhoneNumber(String phoneNumber) { this.phoneNumber = safe(phoneNumber); }
+    public void setEmail(String email) { this.email = safe(email); }
+
+    public String fullNameKey() {
+        return (firstName + " " + lastName).trim().toLowerCase();
+    }
 
     @Override
     public String toString() {
