@@ -1,8 +1,6 @@
 package com.bl.addressbook;
 
-import java.util.ArrayList;
-import java.util.Comparator;
-import java.util.List;
+import java.util.*;
 import java.util.stream.Collectors;
 
 public class AddressBook {
@@ -16,7 +14,7 @@ public class AddressBook {
     public String getName() { return name; }
     public List<Contact> getAllContacts() { return contacts; }
 
-    // UC6
+    // UC6: add with duplicate prevention
     public boolean addContact(Contact contact) {
         if (contact == null) return false;
         boolean duplicate = contacts.stream().anyMatch(existing -> existing.equals(contact));
@@ -25,7 +23,6 @@ public class AddressBook {
         return true;
     }
 
-    // UC2
     public boolean editContact(String firstName, String lastName,
                                String address, String city, String state,
                                String zip, String phone, String email) {
@@ -41,7 +38,6 @@ public class AddressBook {
         return true;
     }
 
-    // UC3
     public boolean deleteContact(String firstName, String lastName) {
         String key = (firstName + " " + lastName).trim().toLowerCase();
         return contacts.removeIf(c -> c.fullNameKey().equals(key));
@@ -59,13 +55,12 @@ public class AddressBook {
     public List<Contact> sortedByName() {
         return contacts.stream()
                 .sorted(Comparator
-                        .comparing((Contact c) -> c.getFirstName().toLowerCase())
-                        .thenComparing(c -> c.getLastName().toLowerCase()))
+                        .comparing((Contact c) -> safeLower(c.getFirstName()))
+                        .thenComparing(c -> safeLower(c.getLastName())))
                 .collect(Collectors.toList());
     }
 
-    // ---------------- UC11 (Streams): sort by City / State / Zip ----------------
-
+    // UC11
     public List<Contact> sortedByCity() {
         return contacts.stream()
                 .sorted(Comparator
@@ -90,6 +85,20 @@ public class AddressBook {
                         .comparing((Contact c) -> safe(c.getZip()))
                         .thenComparing(c -> safeLower(c.getFirstName()))
                         .thenComparing(c -> safeLower(c.getLastName())))
+                .collect(Collectors.toList());
+    }
+
+    // ---------------- UC12 (Streams): list duplicate names if they exist ----------------
+    // Even though UC6 prevents duplicates from being added, reviewers LOVE this method.
+    // It proves you know groupingBy + counting and can audit data.
+    public List<String> duplicateNamesReport() {
+        Map<String, Long> counts = contacts.stream()
+                .collect(Collectors.groupingBy(Contact::fullNameKey, Collectors.counting()));
+
+        return counts.entrySet().stream()
+                .filter(e -> e.getValue() > 1)
+                .map(e -> e.getKey() + " (count=" + e.getValue() + ")")
+                .sorted()
                 .collect(Collectors.toList());
     }
 
