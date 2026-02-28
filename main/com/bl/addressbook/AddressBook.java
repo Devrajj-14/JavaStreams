@@ -15,6 +15,7 @@ public class AddressBook {
                                String address, String city, String state,
                                String zip, String phone, String email) {
         if (contact == null) return false;
+
         String key = (firstName + " " + lastName).trim().toLowerCase();
         if (!contact.fullNameKey().equals(key)) return false;
 
@@ -24,6 +25,17 @@ public class AddressBook {
         contact.setZip(zip);
         contact.setPhoneNumber(phone);
         contact.setEmail(email);
+        return true;
+    }
+
+    // UC3: delete by person name
+    public boolean deleteContact(String firstName, String lastName) {
+        if (contact == null) return false;
+
+        String key = (firstName + " " + lastName).trim().toLowerCase();
+        if (!contact.fullNameKey().equals(key)) return false;
+
+        contact = null;
         return true;
     }
 }
