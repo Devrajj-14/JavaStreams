@@ -65,8 +65,12 @@ public class AddressBookMain {
             System.out.println("2) Edit Contact (UC2)");
             System.out.println("3) Delete Contact (UC3)");
             System.out.println("4) View All Contacts (UC4)");
+            // In System Menu print:
+            System.out.println("5) Search Person by City across all AddressBooks (UC7)");
+            System.out.println("6) Search Person by State across all AddressBooks (UC7)");
             System.out.println("0) Back to System Menu");
             System.out.print("Choose: ");
+
 
             String choice = sc.nextLine().trim();
 
@@ -115,6 +119,26 @@ public class AddressBookMain {
                     List<Contact> all = book.getAllContacts();
                     if (all.isEmpty()) System.out.println("No contacts yet.");
                     else all.forEach(System.out::println);
+                    break;
+                }
+                // Add these cases in the main switch (system menu switch):
+
+                case "5": {
+                    System.out.print("Enter city: ");
+                    String city = sc.nextLine();
+                    List<Contact> result = system.searchAcrossBooksByCity(city);
+
+                    if (result.isEmpty()) System.out.println("No persons found in city: " + city);
+                    else result.forEach(System.out::println);
+                    break;
+                }
+                case "6": {
+                    System.out.print("Enter state: ");
+                    String state = sc.nextLine();
+                    List<Contact> result = system.searchAcrossBooksByState(state);
+
+                    if (result.isEmpty()) System.out.println("No persons found in state: " + state);
+                    else result.forEach(System.out::println);
                     break;
                 }
                 case "0":
