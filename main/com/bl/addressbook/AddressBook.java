@@ -1,41 +1,52 @@
 package com.bl.addressbook;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class AddressBook {
-    private Contact contact;
+    private final List<Contact> contacts = new ArrayList<>();
 
+    // UC1/UC4: add contact
     public void addContact(Contact contact) {
-        this.contact = contact;
+        if (contact != null) {
+            contacts.add(contact);
+        }
     }
 
-    public Contact getContact() {
-        return contact;
+    public List<Contact> getAllContacts() {
+        return contacts;
     }
 
+    // UC2: edit by name
     public boolean editContact(String firstName, String lastName,
                                String address, String city, String state,
                                String zip, String phone, String email) {
-        if (contact == null) return false;
+        Contact c = findByName(firstName, lastName);
+        if (c == null) return false;
 
-        String key = (firstName + " " + lastName).trim().toLowerCase();
-        if (!contact.fullNameKey().equals(key)) return false;
-
-        contact.setAddress(address);
-        contact.setCity(city);
-        contact.setState(state);
-        contact.setZip(zip);
-        contact.setPhoneNumber(phone);
-        contact.setEmail(email);
+        c.setAddress(address);
+        c.setCity(city);
+        c.setState(state);
+        c.setZip(zip);
+        c.setPhoneNumber(phone);
+        c.setEmail(email);
         return true;
     }
 
-    // UC3: delete by person name
+    // UC3: delete by name
     public boolean deleteContact(String firstName, String lastName) {
-        if (contact == null) return false;
-
         String key = (firstName + " " + lastName).trim().toLowerCase();
-        if (!contact.fullNameKey().equals(key)) return false;
+        return contacts.removeIf(c -> c.fullNameKey().equals(key));
+    }
 
-        contact = null;
-        return true;
+    // helper
+    public Contact findByName(String firstName, String lastName) {
+        String key = (firstName + " " + lastName).trim().toLowerCase();
+        for (Contact c : contacts) {
+            if (c.fullNameKey().equals(key)) {
+                return c;
+            }
+        }
+        return null;
     }
 }
