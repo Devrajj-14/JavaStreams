@@ -1,0 +1,50 @@
+# ===== IntelliJ IDEA =====
+.idea/
+*.iml
+*.iws
+*.ipr
+out/
+
+# IntelliJ build cache (sometimes appears)
+.idea_modules/
+
+# ===== Java =====
+*.class
+*.log
+
+# ===== Maven =====
+target/
+pom.xml.tag
+pom.xml.releaseBackup
+pom.xml.versionsBackup
+pom.xml.next
+release.properties
+dependency-reduced-pom.xml
+buildNumber.properties
+.mvn/timing.properties
+
+# ===== Gradle =====
+.gradle/
+build/
+!gradle/wrapper/gradle-wrapper.jar
+
+# ===== Kotlin (if any) =====
+.kotlin/
+
+# ===== OS files =====
+.DS_Store
+Thumbs.db
+
+# ===== VS Code (if opened accidentally) =====
+.vscode/
+
+# ===== Logs / temp =====
+*.tmp
+*.swp
+*.swo
+*.bak
+*.cache
+
+# ===== Test reports =====
+/reports/
+/test-output/
