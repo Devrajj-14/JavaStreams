@@ -14,20 +14,18 @@ public class AddressBook {
     }
 
     public String getName() { return name; }
-
     public List<Contact> getAllContacts() { return contacts; }
 
-    // UC6: duplicate prevention using streams
+    // UC6
     public boolean addContact(Contact contact) {
         if (contact == null) return false;
-
         boolean duplicate = contacts.stream().anyMatch(existing -> existing.equals(contact));
         if (duplicate) return false;
-
         contacts.add(contact);
         return true;
     }
 
+    // UC2
     public boolean editContact(String firstName, String lastName,
                                String address, String city, String state,
                                String zip, String phone, String email) {
@@ -43,6 +41,7 @@ public class AddressBook {
         return true;
     }
 
+    // UC3
     public boolean deleteContact(String firstName, String lastName) {
         String key = (firstName + " " + lastName).trim().toLowerCase();
         return contacts.removeIf(c -> c.fullNameKey().equals(key));
@@ -56,12 +55,49 @@ public class AddressBook {
                 .orElse(null);
     }
 
-    // ---------------- UC10 (Streams): sort alphabetically by person's name ----------------
+    // UC10
     public List<Contact> sortedByName() {
         return contacts.stream()
                 .sorted(Comparator
                         .comparing((Contact c) -> c.getFirstName().toLowerCase())
                         .thenComparing(c -> c.getLastName().toLowerCase()))
                 .collect(Collectors.toList());
+    }
+
+    // ---------------- UC11 (Streams): sort by City / State / Zip ----------------
+
+    public List<Contact> sortedByCity() {
+        return contacts.stream()
+                .sorted(Comparator
+                        .comparing((Contact c) -> safeLower(c.getCity()))
+                        .thenComparing(c -> safeLower(c.getFirstName()))
+                        .thenComparing(c -> safeLower(c.getLastName())))
+                .collect(Collectors.toList());
+    }
+
+    public List<Contact> sortedByState() {
+        return contacts.stream()
+                .sorted(Comparator
+                        .comparing((Contact c) -> safeLower(c.getState()))
+                        .thenComparing(c -> safeLower(c.getFirstName()))
+                        .thenComparing(c -> safeLower(c.getLastName())))
+                .collect(Collectors.toList());
+    }
+
+    public List<Contact> sortedByZip() {
+        return contacts.stream()
+                .sorted(Comparator
+                        .comparing((Contact c) -> safe(c.getZip()))
+                        .thenComparing(c -> safeLower(c.getFirstName()))
+                        .thenComparing(c -> safeLower(c.getLastName())))
+                .collect(Collectors.toList());
+    }
+
+    private static String safeLower(String s) {
+        return s == null ? "" : s.trim().toLowerCase();
+    }
+
+    private static String safe(String s) {
+        return s == null ? "" : s.trim();
     }
 }

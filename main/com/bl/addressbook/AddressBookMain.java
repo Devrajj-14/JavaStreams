@@ -18,6 +18,8 @@ public class AddressBookMain {
                 System.out.println("2) Select Address Book");
                 System.out.println("3) List Address Books");
                 System.out.println("5) Sort Contacts by Name (UC10)");
+
+
                 System.out.println("0) Exit");
                 System.out.print("Choose: ");
 
@@ -75,6 +77,9 @@ public class AddressBookMain {
             System.out.println("8) View Persons by State (UC8)");
             System.out.println("9) Count Contacts by City (UC9)");
             System.out.println("10) Count Contacts by State (UC9)");
+            System.out.println("12) Sort Contacts by City (UC11)");
+            System.out.println("13) Sort Contacts by State (UC11)");
+            System.out.println("14) Sort Contacts by Zip (UC11)");
 
             System.out.println("0) Back to System Menu");
             System.out.print("Choose: ");
@@ -193,6 +198,24 @@ public class AddressBookMain {
                     List<Contact> sorted = book.sortedByName();
                     if (sorted.isEmpty()) System.out.println("No contacts to sort.");
                     else sorted.forEach(System.out::println);  // prints using toString()
+                    break;
+                }
+                case "12": {
+                    List<Contact> sorted = book.sortedByCity();
+                    if (sorted.isEmpty()) System.out.println("No contacts to sort.");
+                    else sorted.forEach(System.out::println);
+                    break;
+                }
+                case "13": {
+                    List<Contact> sorted = book.sortedByState();
+                    if (sorted.isEmpty()) System.out.println("No contacts to sort.");
+                    else sorted.forEach(System.out::println);
+                    break;
+                }
+                case "14": {
+                    List<Contact> sorted = book.sortedByZip();
+                    if (sorted.isEmpty()) System.out.println("No contacts to sort.");
+                    else sorted.forEach(System.out::println);
                     break;
                 }
 
