@@ -4,20 +4,27 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class AddressBook {
-    private final List<Contact> contacts = new ArrayList<>();
+    private final String name;                 // UC5
+    private final List<Contact> contacts = new ArrayList<>();  // UC4
 
-    // UC1/UC4: add contact
+    public AddressBook(String name) {
+        this.name = name == null ? "" : name.trim();
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    // UC1/UC4
     public void addContact(Contact contact) {
-        if (contact != null) {
-            contacts.add(contact);
-        }
+        if (contact != null) contacts.add(contact);
     }
 
     public List<Contact> getAllContacts() {
         return contacts;
     }
 
-    // UC2: edit by name
+    // UC2
     public boolean editContact(String firstName, String lastName,
                                String address, String city, String state,
                                String zip, String phone, String email) {
@@ -33,7 +40,7 @@ public class AddressBook {
         return true;
     }
 
-    // UC3: delete by name
+    // UC3
     public boolean deleteContact(String firstName, String lastName) {
         String key = (firstName + " " + lastName).trim().toLowerCase();
         return contacts.removeIf(c -> c.fullNameKey().equals(key));
@@ -43,9 +50,7 @@ public class AddressBook {
     public Contact findByName(String firstName, String lastName) {
         String key = (firstName + " " + lastName).trim().toLowerCase();
         for (Contact c : contacts) {
-            if (c.fullNameKey().equals(key)) {
-                return c;
-            }
+            if (c.fullNameKey().equals(key)) return c;
         }
         return null;
     }
